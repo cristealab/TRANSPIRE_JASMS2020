@@ -75,7 +75,11 @@ def map_binary(x, mapping):
     zero = x[x[x.columns[~x.isnull().all()]].columns[(cols[:, 0]==cols[:, 1])|(cols[:, 0]=='No translocation')]]
     one = x[x[x.columns[~x.isnull().all()]].columns[(cols[:, 0]!=cols[:, 1])&(cols[:, 0]!='No translocation')]]
     
-    if 'localization_A' in x.index.names:
+    if 'label' in x.index.names:
         return pd.concat([zero.sum(axis=1), one.sum(axis=1), pd.Series(x.index.get_level_values('localization_A')!=x.index.get_level_values('localization_B'), index=x.index)*1], keys = ['no translocation', 'translocation', 'true label'], axis=1)
     else:
         return pd.concat([zero.sum(axis=1), one.sum(axis=1)], keys = ['no translocation', 'translocation'], axis=1)
+
+        
+def lookup(string, df, level):
+    return df[df.index.get_level_values(level).str.lower().str.contains(string.lower())]

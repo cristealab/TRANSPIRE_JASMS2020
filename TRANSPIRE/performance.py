@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 import sklearn.metrics
 
 from ..utils import map_binary
@@ -35,3 +37,20 @@ def eval_report(means, mapping, mapping_r):
     }
 
     return results
+
+def compute_fpr(x, n=100):
+
+    fp = [((x['translocation'] > i)&(x['true label']==0)).sum() for i in np.linspace(0, 1, n)]
+    fpr = fp/((x['true label']==0).sum())
+    
+    return pd.Series(fpr, index=np.linspace(0, 1, n))
+
+def compute_cutoff(fprs, i):
+    cutoffs = {}
+
+    for i in [0.05, 0.01, 0.003333, 0.001]:
+        i_cutoff = fprs[fprs<i].idxmax(axis=1).groupby(['condition_B']).mean()
+        cutoffs[('{:.1f}%'.format(i*100), 'translocation')] = i_cutoff
+        cutoffs[('{:.1f}%'.format(i*100), 'non-translocation')] = 1-i_cutoff
+        
+    cutoffs = pd.concat(cutoffs, axis=1, names = ['FPR level', 'type'])
