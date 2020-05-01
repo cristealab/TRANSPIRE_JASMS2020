@@ -3,7 +3,7 @@ import numpy as np
 
 import sklearn.metrics
 
-from ..utils import map_binary
+from .utils import map_binary
 
 import warnings
 warnings.simplefilter("ignore")
