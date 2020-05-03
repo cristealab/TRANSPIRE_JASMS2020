@@ -1,0 +1,4 @@
++ include TRANSPIRE/data/external/*csv
++ include tests/test_files/*csv
++ include tests/test_files/*txt
++ include tests/test_files/*xlsx
