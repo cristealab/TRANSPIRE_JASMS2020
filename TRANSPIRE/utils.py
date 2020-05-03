@@ -40,7 +40,7 @@ def sample_balanced(X, n_limit, n_folds, random_state = 17):
     
     print('Creating balanced training partitions (this may take a while)....', end=' ')
 
-    for train_idx, test_idx in skf.split(X, X.index.get_level_values('label')):
+    for _, test_idx in skf.split(X, X.index.get_level_values('label')):
         X_train_dfs.append(X.iloc[test_idx, :])
 
     temp = pd.concat(X_train_dfs, keys=range(1, n_folds+1), names=['fold'])
@@ -53,7 +53,7 @@ def sample_balanced(X, n_limit, n_folds, random_state = 17):
 
 def train_test_validate_split(X, groupby_levels, f_train = 0.5, f_validate = 0.25, f_test = 0.25, random_state=17):
     
-    if not (sum([f_train, f_validate, f_test])-1) < 0.05:
+    if not abs(sum([f_train, f_validate, f_test])-1) < 0.05:
         raise ValueError ('Sum of f_train, f_validate, and f_test must equal 1.')
     
     print('Splitting data into training, validation, and testing folds (this may take a while) . . . ', end='')
