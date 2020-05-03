@@ -20,8 +20,6 @@ def load_data(f):
     
     f_type = f.split('.')[-1]
 
-    print(f_type)
-
     if not f_type in f_types:
         raise ValueError('File type must be .csv, .txt (tab-separated), or excel')
 
