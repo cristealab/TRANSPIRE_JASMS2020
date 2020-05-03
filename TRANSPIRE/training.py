@@ -69,6 +69,22 @@ def build_model(X, y, **model_params):
 
     '''
 
+    assert(isinstance(X, np.ndarray))
+    assert(isinstance(y, np.ndarray))
+    assert(X.shape[0]==y.shape[0])
+    assert(y.shape[1]==1)
+
+    if 'weights' in model_params:
+        assert(model_params['weights'].shape==y.shape)
+
+        if 'minibatch_size' in model_params:
+            assert(isinstance(model_params['minibatch_size'], type(None)))
+
+        weights = model_params['weights']
+
+    else:
+        weights = None
+
     if not 'Z' in model_params:
         if not 'n_induce' in model_params:
             n_induce = 100
@@ -111,13 +127,27 @@ def build_model(X, y, **model_params):
         kernel = model_params['kernel']
 
     
-    m = gpflow.models.SVGP(X, y,  
-                            Z = Z,
-                            kern = kernel, 
-                            likelihood = likelihood, 
-                            num_latent = n_latent, 
-                            q_diag=q_diag, 
-                            whiten=whiten, 
-                            minibatch_size=minibatch_size)
+
+    if minibatch_size is not None and weights is None:
+
+        m = gpflow.models.SVGP(X, y,  
+                               Z = Z, 
+                               kern = kernel, 
+                               likelihood = likelihood, 
+                               num_latent = n_latent, 
+                               q_diag = q_diag, 
+                               whiten = whiten, 
+                               minibatch_size = minibatch_size)
+
+    elif minibatch_size is None:
+        
+        m = WeightedSVGP(X, y,  
+                        Z = Z, 
+                        weights = weights,
+                        kern = kernel, 
+                        likelihood = likelihood, 
+                        num_latent = n_latent, 
+                        q_diag = q_diag, 
+                        whiten = whiten)
 
     return m

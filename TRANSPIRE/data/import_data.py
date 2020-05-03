@@ -42,7 +42,7 @@ def load_data(f):
         df.index.names = [s.lower() for s in df.index.names]
         df.columns.names = [s.lower() for s in df.columns.names]
         
-    except AttributeError as e:
+    except AttributeError as _:
         
         raise ValueError('Dataframe index or column names are improperly formatted')
 
