@@ -206,3 +206,5 @@ cython_debug/
     Blog
     About
 
+#Visual studio code
+./vscode
