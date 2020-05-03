@@ -1,11 +1,58 @@
 
+import pandas as pd
+import numpy as np
+from sklearn.cluster import MiniBatchKMeans
+
 import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.logging.ERROR)
 
 import gpflow
-import numpy as np
-from sklearn.cluster import MiniBatchKMeans
+from gpflow.decors import params_as_tensors
+from gpflow import settings
+from gpflow.params import DataHolder
+from gpflow.params import Minibatch
 
+class WeightedSVGP(gpflow.models.SVGP):
+    def __init__(self, X, Y, Z, kern, likelihood, weights = None, **kwargs):
+        
+        if (weights is None) or (weights.shape == Y.shape):
+            
+            super().__init__(X, Y, Z=Z, kern = kern, likelihood = likelihood, **kwargs)
+
+            if weights is None:
+                weights = np.ones(Y.shape)
+            
+            if 'minibatch_size' in kwargs:
+                raise NotImplementedError('Weighted SVGP cannot currently minibatch')
+            else:
+                self.weights = DataHolder(weights) 
+
+        else:
+            raise ValueError('Shape of weights {} must match shape of Y {}'.format(weights.shape, Y.shape))
+
+
+    @params_as_tensors
+    def _build_likelihood(self):
+        """
+        This gives a variational bound on the model likelihood.
+        """
+
+        # Get prior KL.
+        KL = self.build_prior_KL()
+
+        # Get conditionals
+        fmean, fvar = self._build_predict(self.X, full_cov=False, full_output_cov=False)
+
+        # Get variational expectations.
+        var_exp = self.likelihood.variational_expectations(fmean, fvar, self.Y)
+
+        # re-scale for minibatch size
+        scale = tf.cast(self.num_data, settings.float_type) / tf.cast(tf.shape(self.X)[0], settings.float_type)
+
+        likelihood = tf.reduce_sum(var_exp*self.weights) * scale - KL
+
+        return likelihood
+    
 def compute_inducing(X, n_induce):
     return MiniBatchKMeans(n_induce, max_iter=2000).fit(X).cluster_centers_ 
 
