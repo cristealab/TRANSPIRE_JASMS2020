@@ -83,3 +83,12 @@ def map_binary(x, mapping):
         
 def lookup(string, df, level):
     return df[df.index.get_level_values(level).str.lower().str.contains(string.lower())]
+
+
+def get_mapping(df):
+
+    labels = np.unique(list(itertools.product(np.unique(df.index.get_level_values('localization').dropna()), np.unique(df.index.get_level_values('localization').dropna()))))
+    mapping = pd.Series(range(0, len(labels), index = labels))
+    mapping_r = pd.Series(mapping.index, index=mapping)
+    
+    return mapping, mapping_r
