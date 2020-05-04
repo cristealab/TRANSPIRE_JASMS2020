@@ -20,7 +20,7 @@ class TestSVGP(unittest.TestCase):
         data = TRANSPIRE.data.import_data.load_data(os.path.join(THIS_DIR, 'test_files/test_Gilbertson2018.csv'))
         comparisons = [('{}_{}'.format(cA, r), '{}_{}'.format(cB, r)) for cA, cB in list(itertools.combinations(['D219A', 'WT'], 2)) for r in [1]]
         
-        translocations, mapping, mapping_r = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons)
+        translocations, mapping, _ = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons)
 
         self.X = translocations.values
         self.y = translocations.index.get_level_values('label').map(mapping).values.reshape(-1, 1)
