@@ -107,3 +107,11 @@ def load_organelle_markers(marker_set_name, df=None):
         raise ValueError('{} is not a valid marker set name'.format(marker_set_name))
 
 
+def load_predictions(f):
+
+    df = pd.read_csv(f, header=[0, 1], index_col=[0, 1, 2, 3, 4, 5, 6])
+
+    assert(all([i in ['accession_A', 'Accession_B', 'gene name_A', 'gene name_B', 'condition_A', 'condition_B'] for i in df.index.names]))
+
+    return df
+
