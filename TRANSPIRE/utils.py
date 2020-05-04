@@ -88,7 +88,7 @@ def lookup(string, df, level):
 
 def get_mapping(df):
 
-    labels = np.unique(list(itertools.product(np.unique(df.index.get_level_values('localization').dropna()), np.unique(df.index.get_level_values('localization').dropna()))))
+    labels = np.unique([' to '.join(tup) for tup in list(itertools.product(np.unique(df.index.get_level_values('localization').dropna()), np.unique(df.index.get_level_values('localization').dropna())))])
     mapping = pd.Series(range(0, len(labels)), index = labels)
     mapping_r = pd.Series(mapping.index, index=mapping)
     
