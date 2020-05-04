@@ -45,12 +45,8 @@ def compute_fpr(x, n=100):
     
     return pd.Series(fpr, index=np.linspace(0, 1, n))
 
-def compute_cutoff(fprs, i):
-    cutoffs = {}
-
-    for i in [0.05, 0.01, 0.003333, 0.001]:
-        i_cutoff = fprs[fprs<i].idxmax(axis=1).groupby(['condition_B']).mean()
-        cutoffs[('{:.1f}%'.format(i*100), 'translocation')] = i_cutoff
-        cutoffs[('{:.1f}%'.format(i*100), 'non-translocation')] = 1-i_cutoff
+def compute_cutoff(fprs,level, i):
+ 
+    return fprs[fprs<=i].idxmax(axis=1).groupby(level).mean()
         
-    cutoffs = pd.concat(cutoffs, axis=1, names = ['FPR level', 'type'])
+
