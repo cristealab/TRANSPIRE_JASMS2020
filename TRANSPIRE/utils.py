@@ -107,7 +107,7 @@ def uniprot_mapping_service(proteins, to, _from = 'ACC+ID'):
 
     p = ' '.join([protein for protein in proteins])
 
-    if 'string' in to.lower():
+    if 'string_db' in to.lower():
         to = 'STRING_ID'
         name = 'StringID'
     elif 'gene' in to.lower() and 'id' in to.lower():
