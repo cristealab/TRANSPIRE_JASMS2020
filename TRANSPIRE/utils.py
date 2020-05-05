@@ -93,3 +93,35 @@ def get_mapping(df):
     mapping_r = pd.Series(mapping.index, index=mapping)
     
     return mapping, mapping_r
+
+def uniprot_mapping_service(proteins, to, _from = 'ACC+ID'):
+    
+    import requests
+    import io
+
+    url = 'https://www.uniprot.org/uploadlists/'
+
+    # check that there are no NaNs in proteins
+    if pd.isnull(proteins).any():
+        raise ValueError('remove NaN values before mapping')
+
+    p = ' '.join([protein for protein in proteins])
+
+    if 'string' in to.lower():
+        to = 'STRING_ID'
+        name = 'StringID'
+    elif 'gene' in to.lower() and 'id' in to.lower():
+        to = 'P_ENTREZGENEID'
+        name ='GeneID'
+
+    params = {'from': _from,
+              'to':to,
+              'format':'tab',
+              'query': p}
+
+    r = requests.post(url, data = params)
+    df = pd.read_csv(io.StringIO(r.text), sep = '\t')
+    df.columns = ['accession number', name]
+    df = df.set_index(['accession number'])
+
+    return df
