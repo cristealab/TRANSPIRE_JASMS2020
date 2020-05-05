@@ -83,7 +83,7 @@ def map_binary(x, mapping):
 
         
 def lookup(string, df, level):
-    return df[df.index.get_level_values(level).str.lower().str.contains(string.lower())]
+    return df[~df.index.get_level_values(level).isnull()][df.index.get_level_values(level).dropna().str.lower().str.contains(string.lower())]
 
 
 def get_mapping(df):
