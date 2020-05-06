@@ -2,30 +2,40 @@ import pandas as pd
 import numpy as np
 
 from goatools import mapslim
-from goatools.associations import read_ncbi_gene2go
+from goatools.anno.genetogo_reader import Gene2GoReader
 from goatools.base import download_go_basic_obo, download_ncbi_associations
-from goatools.go_enrichment import GOEnrichmentStudy
+from goatools.goea.go_enrichment_ns import GOEnrichmentStudyNS
 from goatools.obo_parser import GODag
 
 from .utils import uniprot_mapping_service
 
 class GOAnalyzer:
-    def __init__(self, background_proteins, all_proteins, species = '9606', alpha = 0.05, method = 'fdr'):
+    def __init__(self, background_proteins, species = '9606', alpha = 0.05, method = 'fdr_bh'):
+
+        if isinstance(background_proteins, pd.Index) or isinstance(background_proteins, pd.Series):
+            background_proteins = background_proteins.values.tolist()
+
+        elif isinstance(background_proteins, np.ndarray):
+            background_proteins = background_proteins.tolist()
+
+        assert(isinstance(background_proteins, list))
         
-        self.IDs = uniprot_mapping_service(background_proteins.values.tolist()+all_proteins[~all_proteins.isin(background_proteins)].values.tolist(), 'geneID')
+        self.IDs = uniprot_mapping_service(background_proteins, 'geneID')
         self.alpha = alpha
 
         background_IDs = self.IDs['GeneID'].astype(int).tolist()
         
-        download_go_basic_obo()        
-        download_ncbi_associations()
+        obo_fname = download_go_basic_obo()        
+        fin_gene2go = download_ncbi_associations()
 
         self.obodag = GODag("go-basic.obo")
 
         self.species = species
-        geneid2gos = read_ncbi_gene2go('gene2go', taxids = [int(species)])
+
+        geneid2gos = Gene2GoReader(fin_gene2go, taxids = [int(species)])
+        ns2assoc = geneid2gos.get_ns2assc()
         
-        self.study = GOEnrichmentStudy(background_IDs, geneid2gos, self.obodag, propagate_counts = False, alpha = alpha, methods = [method])
+        self.study = GOEnrichmentStudyNS(background_IDs, ns2assoc, self.obodag, propagate_counts = False, alpha = alpha, methods = [method])
 
     def get_enrichment(self, query_proteins, return_all = False):
         
@@ -33,6 +43,8 @@ class GOAnalyzer:
 
         if len(ids)>0:
             results = self.study.run_study(ids)
+
+            self.curr_results = results
 
             # select entries above significance cutoff
             if not return_all:
