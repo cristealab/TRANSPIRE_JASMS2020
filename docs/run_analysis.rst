@@ -13,7 +13,7 @@ In order for TRANSPIRE to be able to load and analyze your data, it should be in
 
 .. csv-table:: 
    :header-rows: 3
-   :file: ./_static/sample_data.csv
+   :file: ./_static/import_sample_data.csv
 
 e.g. experimental conditions and organelle fractions should be listed in separate columns across the top of the document. Each row should represent one protein and begin with its Uniprot accession number, gene name, and localization (optional, only for marker proteins)
 

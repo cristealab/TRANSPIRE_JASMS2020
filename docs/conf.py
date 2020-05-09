@@ -23,7 +23,7 @@ author = 'Michelle A. Kennedy'
 
 # The full version, including alpha/beta/rc tags
 release = 'Beta'
-
+master_doc  = 'index'
 
 # -- General configuration ---------------------------------------------------
 
