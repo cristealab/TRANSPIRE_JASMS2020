@@ -1,10 +1,9 @@
-.. TRANSPIRE documentation master file, created by
-   sphinx-quickstart on Mon May  4 01:17:03 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to TRANSPIRE's documentation!
 =====================================
+
+.. automodule :: TRANSPIRE.utils
+   :members:
+
 
 .. toctree::
    :maxdepth: 2
