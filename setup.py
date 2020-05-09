@@ -9,7 +9,8 @@ requirements = [
     'scikit-learn>=0.21.3', 
     'statsmodels>=0.10.1',
     'matplotlib>=3.1.1', 
-    'seaborn>=0.9.0'
+    'seaborn>=0.9.0', 
+    'pytest'
 ]
 
 with open("README.md", "r") as fh:
