@@ -14,11 +14,18 @@ def compute_distance(X):
     :returns dists: pd.DataFrame for all pairwise distances between samples.
 
     '''
-    mincovdet = sklearn.covariance.MinCovDet(random_state=17)
+    mincovdet = MinCovDet(random_state=17)
     vi = mincovdet.fit(X.T.values).covariance_
     dists = cdist(X.values, X.values, 'mahalanobis', VI=vi)
     
     dists = np.triu(dists, k=1)
-    dists = pd.DataFrame(dists, index = X.index.get_level_values('accession_A'), columns = X.index.get_level_values('accession_B'))
+
+    idx = X.index.copy()
+    idx.names = ['{}_A'.format(n) for n in X.index.names]
+
+    cols = X.index.copy()
+    cols.names = ['{}_B'.format(n) for n in X.index.names]
+
+    dists = pd.DataFrame(dists, index = idx, columns = cols)
     
     return dists.where(dists!=0, np.nan)
