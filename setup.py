@@ -1,5 +1,17 @@
 import setuptools
 
+requirements = [
+    'pandas>=0.25.1', 
+    'numpy>=1.16.5', 
+    'scipy>=1.3.1', 
+    'gpflow==1.5.1', 
+    'tensorflow==1.15.0', 
+    'goatools>=1.0.2', 
+    'sklearn>=0.21.3', 
+    'statsmodels>=0.10.1',
+    'matplotlib>=3.1.1'
+]
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -20,9 +32,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires = [
-        'pandas', 'numpy', 'scipy', 'gpflow', 'tensorflow', 'goatools', 'sklearn', 'statsmodels',
-    ],
+    install_requires = requirements
     include_package_data = True,
     package_data = {
         '': ['.csv', '.txt', '.xlsx']
