@@ -39,7 +39,10 @@ To learn how to perform translocation analysis with TRANSPIRE, see our :doc:`not
    :glob:
    :caption: Examples and tutorials:
 
-   notebooks_file
+   notebooks/importing and manipulating data
+   notebooks/hyperparameter optimization
+   notebooks/final model fitting and evaluation
+   notebooks/post-processing (GO analysis, co-translocation analysis, etc.)
    
 .. toctree::
    :maxdepth: 3
