@@ -7,7 +7,7 @@ requirements = [
     'gpflow==1.5.1', 
     'tensorflow==1.15.0', 
     'goatools>=1.0.2', 
-    'sklearn>=0.21.3', 
+    'scikit-learn>=0.21.3', 
     'statsmodels>=0.10.1',
     'matplotlib>=3.1.1', 
     'seaborn>=0.9.0'
