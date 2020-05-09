@@ -35,7 +35,8 @@ autodoc_mock_imports = [
     'goatools', 
     'sklearn', 
     'statsmodels',
-    'matplotlib'
+    'matplotlib', 
+    'seaborn'
     ]
 
 # -- General configuration ---------------------------------------------------
