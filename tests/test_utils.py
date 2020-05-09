@@ -59,8 +59,8 @@ class TestUtils(unittest.TestCase):
         df_gene = TRANSPIRE.utils.uniprot_mapping_service(['Q92614'], 'gene')
         df_string = TRANSPIRE.utils.uniprot_mapping_service(['Q92614'], 'string_db')
 
-        self.assertIsInstance(df_string, pd.DataFrame))
-        self.assertIsInstance(df_gene, pd.DataFrame))
+        self.assertIsInstance(df_string, pd.DataFrame)
+        self.assertIsInstance(df_gene, pd.DataFrame)
 
         self.assertEqual(df_gene.values[0], 'MYO18A')
         self.assertEqual(df_string.values[0], '9606.ENSP00000437073')
