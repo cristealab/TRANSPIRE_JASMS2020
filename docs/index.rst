@@ -23,9 +23,6 @@ TRANSPIRE relies heavily on `Pandas`_ for data manipulation, in addition to `GPF
 
 Given the heavy dependence on Pandas, we reccommend that users have, at least, a baseline knowledge of this package.
 
-To learn how to perform translocation analysis with TRANSPIRE, see our :doc:`notebooks <./notebooks_file>` for examples and tutorials.
-
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -35,7 +32,7 @@ To learn how to perform translocation analysis with TRANSPIRE, see our :doc:`not
    run_analysis
    
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :glob:
    :caption: Examples and tutorials:
 
