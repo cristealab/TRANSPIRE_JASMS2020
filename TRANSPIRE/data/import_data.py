@@ -7,12 +7,16 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def load_data(f):
 
-    '''
-    Load a dataset for analysis.
+    '''Load a dataset for analysis.
 
-    :param f: absolute file path for .csv or .txt data file
-    :returns df: MultiIndex dataframe (index and columns are both MultiIndexes)
-    :raises ValueError: Error is raised when the target file formatting does not match what is required by TRANSPIRE for proper analysis. 
+    Args:
+        f (str): absolute file path for Excel, .csv, or .txt data file
+    
+    Returns:
+        df (pd.DataFrame): MultiIndex dataframe (index and columns are both MultiIndexes)
+
+    Raises:
+        ValueError: Error is raised when the target file formatting does not match what is required by TRANSPIRE for proper analysis. 
 
     '''
     
@@ -53,12 +57,14 @@ def load_data(f):
 
 def add_markers(df_, markers_):
 
-    '''
-    Append organelle marker localization information to a dataframe.
+    '''Append organelle marker localization information to a dataframe.
 
-    :param df_: Pandas dataframe formatted for TRANSPIRE analysis
-    :param markers_: String referring to an organelle marker set in external data or a custom set of markers loaded as a Pandas dataframe or series with an "accession" and "localization" column specifying organelle marker Uniprot accession numbers and their corresponding subcellular localization.
-    :returns df: a copy of the original input dataframe with organelle localizations appended as an additional index level
+    Args:
+        df_ (pd.DataFrame): Pandas dataframe formatted for TRANSPIRE analysis
+        markers_(Union(str, pd.DataFrame)): String referring to an organelle marker set in external data or a custom set of markers loaded as a pd.DataFrame or pd.Series with an "accession" and "localization" column specifying organelle marker Uniprot accession numbers and their corresponding subcellular localization.
+    
+    Returns:
+        df(pd.DataFrame): a copy of the original input dataframe with organelle localizations appended as an additional index level
 
     '''
 
@@ -81,6 +87,19 @@ def add_markers(df_, markers_):
     return df.reset_index().set_index(df.index.names+['localization'])
 
 def load_organelle_markers(marker_set_name, df=None):
+    '''Load an organelle marker set from TRANSPIRE.data.external.organelle_markers
+
+    Args:
+        marker_set_name (str): Name of marker set to load
+        df (pd.DataFrame, optional): DataFrame to coerce into proper formatting for TRANSPIRE
+
+    Returns:
+        markers (pd.Series): Marker set loaded as a pd.Series with index and value pairs referring to protein accession number and associated subcellular localization
+
+    Raises:
+        ValueError: If marker_set_name is not a valid marker set in TRANSPIRE.data.external.organelle_markers
+
+    ''' 
 
     if not isinstance(marker_set_name, str):
         raise ValueError("marker_set_name must be a string")
@@ -108,6 +127,15 @@ def load_organelle_markers(marker_set_name, df=None):
 
 
 def load_predictions(f):
+    '''Load TRANSPIRE predictions from a filepath
+
+    Args:
+        f (str): valid filepath to .csv or .zip file
+
+    Returns:
+        df (pd.DataFrame): DataFrame loaded from filepath
+
+    '''
 
     df = pd.read_csv(f, header=[0, 1], index_col=[0, 1, 2, 3, 4, 5, 6])
 

@@ -9,6 +9,20 @@ import warnings
 warnings.simplefilter("ignore")
 
 def eval_report(means, mapping, mapping_r):
+    '''Compute an array of model performance metrics given mean classifer scores across all possible prediction classes
+
+    Computed metrics include binary and multi-class log-loss, macro F1 scores, micro F1 scores, and weighted F1 scores.
+
+    Args:
+        means (pd.DataFrame): DataFrame of classifer scores across each possible class
+        mapping (pd.Series): Mapping generator used to encode class labels
+        mapping_r(pd.Series): Mapping genrator used to decode class labels
+
+    Returns:
+        results (pd.DataFrame): DataFrame of computed metrics
+
+    '''
+
     # log loss
     log_loss = sklearn.metrics.log_loss(means.index.get_level_values('label').map(mapping).astype(int), means)
 
@@ -36,9 +50,20 @@ def eval_report(means, mapping, mapping_r):
             },)
     }
 
-    return results
+    return pd.concat(results, keys = ['type of metric', 'metric'])
 
 def compute_fpr(x, n=100):
+    '''Compute false-positive rates for translocation score cutoffs
+
+    Args:
+        x (pd.DataFrame): DataFrame including 'translocation score' and 'true label' columns (as produced by TRANSPIRE.utils.map_binary)
+        n (int, optional): number of bins to split the translocation scores into
+
+    Returns:
+        fpr (pd.Series): false-positive rates for different translocation score cutoffs given the true binary labels
+
+
+    '''
 
     fp = [((x['translocation'] > i)&(x['true label']==0)).sum() for i in np.linspace(0, 1, n)]
     fpr = fp/((x['true label']==0).sum())
@@ -46,6 +71,17 @@ def compute_fpr(x, n=100):
     return pd.Series(fpr, index=np.linspace(0, 1, n))
 
 def compute_cutoff(fprs,level, i):
+    '''Compute score cutoff based on desired false-positive rate stringency
+
+    Args:
+        fprs (pd.DataFrame): calculated false-positive rates (DataFrame columns should correspond to translocation scores)
+        level (list): list of multindex levels to groupby (e.g. conditions, folds, etc.)
+        i (float): fpr cutoff between 0 and 1
+
+    Returns:
+        cutoffs (pd.Series): corresponding score cutoffs for each set of levels as defined by the 'level' grouping
+
+    '''
  
     return fprs[fprs<=i].idxmax(axis=1).groupby(level).mean()
         

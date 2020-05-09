@@ -7,12 +7,15 @@ from scipy.spatial.distance import cdist
 
 def compute_distance(X):
     
-    '''
-    Compute the Mahalanobis distance between pairwise combinations of all samples in X.
+    '''Compute the Mahalanobis distance between pairwise combinations of all samples in X.
 
-    :param X: pd.DataFrame properly formatted for TRANSPIRE analysis (i.e. has the proper multi index levels)
-    :returns dists: pd.DataFrame for all pairwise distances between samples.
+    Args:
+        X (pd.DataFrame): DataFrame with spatial profile data
+    
+    Returns:
+        dists (pd.DataFrame): All pairwise distances between samples. The index from X will become the index and columns for this DataFrame.
 
+    Note that this function will calculate pairwise distances for all combinations of samples in the index (e.g. it returns an n x n DataFrame, which can become quite large depending on the input data)
     '''
 
     mincovdet = MinCovDet(random_state=17)

@@ -2,14 +2,20 @@ import pandas as pd
 import numpy as np
 import itertools
 
+from ..utils import get_mapping
+
 def make_translocations(df, comparisons, synthetic = True):
 
-    '''
-    Generate synthetic translocations between organelles using pre-defined organelle marker proteins.
+    '''Generate synthetic translocations between organelles using pre-defined organelle marker proteins or simply generate concatenated protein profiles across the specified comparisons.
 
-    :param df: pandas dataframe properly formatted for TRANSPIRE analysis
-    :param comparisons: Pairwise combinations of conditions to make translocations between (list of tuples, e.g. [('control', 'treatment_1'), ('control', 'treatment_2'), ('control', 'treatment_3')]).
-    
+    Args:
+        df (pd.DataFrame): Pandas dataframe properly formatted for TRANSPIRE analysis
+        comparisons (Union(list, np.array)): Pairwise combinations of conditions to make translocations between (list or array of tuples, e.g. [('control', 'treatment_1'), ('control', 'treatment_2'), ('control', 'treatment_3')])
+        synthetic (bool): Whether or not to generate synthetic translocation profiles using organelle marker proteins. If False, this function will just return concatenated profiles for all samples accross the provided comparisons
+
+    Returns:
+        df_concatenated (pd.DataFrame): Dataframe with concatenated profiles.
+
     '''
 
     if not 'condition' in df.index.names:
@@ -57,10 +63,7 @@ def make_translocations(df, comparisons, synthetic = True):
         catted['label'] = catted.index.get_level_values('localization_A').str.cat(catted.index.get_level_values('localization_B').values, sep=' to ')
         catted = catted.reset_index().set_index(catted.index.names+['label'])
         
-        mapping = pd.Series(range(0, len(np.unique(catted.index.get_level_values('label')))), index = np.unique(catted.index.get_level_values('label')))
-        mapping_r = pd.Series(mapping.index, index=mapping)
-        
-        return catted, mapping, mapping_r
+        return catted
 
     else:
 
