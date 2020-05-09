@@ -25,6 +25,19 @@ author = 'Michelle A. Kennedy'
 release = 'Beta'
 master_doc  = 'index'
 
+# -- Mock imports ------------------------------------------------------------
+autodoc_mock_imports = [ 
+    'pandas', 
+    'numpy', 
+    'scipy', 
+    'gpflow', 
+    'tensorflow', 
+    'goatools', 
+    'sklearn', 
+    'statsmodels',
+    'matplotlib'
+    ]
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
