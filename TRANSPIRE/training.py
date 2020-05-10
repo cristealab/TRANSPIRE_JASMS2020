@@ -86,7 +86,6 @@ def build_model(X, y, **model_params):
         
     m = gpflow.models.SVGP(X, y,  
                            Z = Z, 
-                           weights = weights,
                            kern = kernel, 
                            likelihood = likelihood, 
                            num_latent = n_latent, 
