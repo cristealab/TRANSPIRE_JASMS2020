@@ -84,13 +84,13 @@ def build_model(X, y, **model_params):
 
 
         
-    m = WeightedSVGP(X, y,  
-                    Z = Z, 
-                    weights = weights,
-                    kern = kernel, 
-                    likelihood = likelihood, 
-                    num_latent = n_latent, 
-                    q_diag = q_diag, 
-                    whiten = whiten)
+    m = gpflow.models.SVGP(X, y,  
+                           Z = Z, 
+                           weights = weights,
+                           kern = kernel, 
+                           likelihood = likelihood, 
+                           num_latent = n_latent, 
+                           q_diag = q_diag, 
+                           whiten = whiten)
 
     return m
