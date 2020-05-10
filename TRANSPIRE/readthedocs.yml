@@ -20,3 +20,6 @@ python:
           - docs
   method: setuptools
   python.system_packages: True
+
+pages:
+  - Home: index.rst
