@@ -13,7 +13,7 @@ To install TRANSPIRE, clone or download the [GitHub repository](https://github.c
 
 **Dependencies**
 
-TRANSPIRE relies heavily on [Pandas]( https://pandas.pydata.org/) for data manipulation, in addition to [GPFlow](https://www.gpflow.org/)[1][1] and [Tensorflow](https://www.tensorflow.org/)[2][2] for building and training Gaussian Process Classifiers (GPCs). 
+TRANSPIRE relies heavily on [Pandas]( https://pandas.pydata.org/) for data manipulation, in addition to [GPFlow](https://www.gpflow.org/)[1] and [Tensorflow](https://www.tensorflow.org/)[2] for building and training Gaussian Process Classifiers (GPCs). 
 
 Given the heavy dependence on Pandas, we recommend that users have, at least, a baseline knowledge of this package.
 
@@ -31,6 +31,7 @@ See the provided [Jupyter notebooks](/docs/notebooks) for examples and tutorials
 
 ### Essential references
 [1]: De, A. G.; Matthews, G.; Nickson, T.; Fujii, K.; Boukouvalas, A.; León-Villagrá, P.; Ghahramani, Z.; Hensman, J. GPflow: A Gaussian Process Library Using TensorFlow Mark van Der Wilk; 2017; Vol. 18.
+
 [2]: Abadi, M.; Agarwal, A.; Barham, P.; Brevdo, E.; Chen, Z.; Citro, C.; Corrado, G. S.; Davis, A.; Dean, J.; Devin, M.; Ghemawat, S.; Goodfellow, I.; Harp, A.; Irving, G.; Isard, M.; Jia, Y.; Jozefowicz, R.; Kaiser, L.; Kudlur, M.; Levenberg, J.; Mane, D.; Monga, R.; Moore, S.; Murray, D.; Olah, C.; Schuster, M.; Shlens, J.; Steiner, B.; Sutskever, I.; Talwar, K.; Tucker, P.; Vanhoucke, V.; Vasudevan, V.; Viegas, F.; Vinyals, O.; Warden, P.; Wattenberg, M.; Wicke, M.; Yu, Y.; Zheng, X. TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems. 2016.
 
 
