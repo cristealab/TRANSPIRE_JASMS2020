@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.cluster import MiniBatchKMeans
 
 import tensorflow as tf
-tf.compat.v1.logging.set_verbosity(tf.logging.ERROR)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 import gpflow
     

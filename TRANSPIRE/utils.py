@@ -196,6 +196,8 @@ def uniprot_mapping_service(proteins, to):
     elif 'gene' in to.lower() and 'id' in to.lower():
         to = 'P_ENTREZGENEID'
         name ='GeneID'
+    else:
+        raise ValueError('{} is not a valid mapping type'.format(to))
 
     params = {'from': _from,
               'to':to,
@@ -204,6 +206,7 @@ def uniprot_mapping_service(proteins, to):
 
     r = requests.post(url, data = params)
     df = pd.read_csv(io.StringIO(r.text), sep = '\t')
+
     df.columns = ['accession number', name]
     df = df.set_index(['accession number'])
 

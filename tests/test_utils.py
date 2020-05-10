@@ -14,8 +14,9 @@ class TestUtils(unittest.TestCase):
     def setUp(self):
         self.data = TRANSPIRE.data.import_data.load_data(os.path.join(THIS_DIR, 'test_files/test_Gilbertson2018.csv'))
         self.comparisons = [('{}_{}'.format(cA, r), '{}_{}'.format(cB, r)) for cA, cB in list(itertools.combinations(['D219A', 'WT'], 2)) for r in [1]]
-        self.translocations, self.mapping, self.mapping_r = TRANSPIRE.data.generate_translocations.make_translocations(self.data, self.comparisons)
-
+        self.translocations = TRANSPIRE.data.generate_translocations.make_translocations(self.data, self.comparisons)
+        self.mapping, self.mapping_r = TRANSPIRE.utils.get_mapping(self.data)
+        
         self.preds = pd.DataFrame(np.random.rand(self.translocations.shape[0], self.mapping.shape[0]), index = self.translocations.index, columns = range(self.mapping.shape[0]))
         self.preds = self.preds.apply(lambda x: x/self.preds.sum(axis=1))
 
@@ -56,11 +57,11 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(not_in_df.shape[0], 0)
 
     def test_uniprot_mapping(self):
-        df_gene = TRANSPIRE.utils.uniprot_mapping_service(['Q92614'], 'gene')
+        df_gene = TRANSPIRE.utils.uniprot_mapping_service(['Q92614'], 'gene id')
         df_string = TRANSPIRE.utils.uniprot_mapping_service(['Q92614'], 'string_db')
 
         self.assertIsInstance(df_string, pd.DataFrame)
         self.assertIsInstance(df_gene, pd.DataFrame)
 
-        self.assertEqual(df_gene.values[0], 'MYO18A')
+        self.assertEqual(df_gene.values[0], 399687)
         self.assertEqual(df_string.values[0], '9606.ENSP00000437073')

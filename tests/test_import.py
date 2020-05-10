@@ -33,7 +33,7 @@ class TestAddMarkers(unittest.TestCase):
 
     def setUp(self):
         self.data = TRANSPIRE.data.import_data.load_data(os.path.join(THIS_DIR, 'test_files/test_Gilbertson2018.csv'))
-        self.markers = TRANSPIRE.data.import_data.load_organelle_markers('Breckels2013_HEK293T')
+        self.markers = TRANSPIRE.data.import_data.load_organelle_markers('HEK293T')
 
     def test_add_redundant_markers(self):
         with self.assertRaises(ValueError):
