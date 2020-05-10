@@ -96,8 +96,29 @@ def build_model(X, y, **model_params):
 
 
 class ProgressTracker:
+    '''Object to keep track of model fitting progress.
+
+    Can optionally be used to create a custom callback object that will plot the progress of model fitting.
+
+    Attributes:
+        m (gpflow.models.SVGP): SVGP model
+        X (np.ndarray): values used to evaluate the model 
+        y (np.ndarray): encoded target class labels of each sample in X
+        elbo (list): list of ELBO values after each ProgressTracker.update call
+        acc (list): accuracy values after each ProgressTracker.update call
+
+    '''
+
     def __init__(self, m, X, y):
-        
+        '''Initialize tracking object
+
+        Args:
+            m (gpflow.models.SVGP): fully-build SVGP model
+            X (np.ndarray): data used to evaluate m (X.shape[1] must have the same dimension as the the inducing points used to build m)
+            y (np.ndarray): corresponding encoded target class labels for samples in X
+
+        '''
+
         self.m = m
         self.X = X
         self.y = y
@@ -106,6 +127,15 @@ class ProgressTracker:
         self.acc = []
         
     def update(self):
+        '''Update the tracking object based on the current parameters of m
+
+        Args:
+            None
+        Returns:
+            None
+
+        '''
+
         self.elbo.append(self.m.compute_log_likelihood(self.X))
         means, _ = self.m.predict_y(self.X)
         self.acc.append((np.argmax(means, axis=1)==self.y.flatten()).sum()/len(means))
