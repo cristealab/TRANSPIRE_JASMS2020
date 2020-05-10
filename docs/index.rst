@@ -23,6 +23,12 @@ TRANSPIRE relies heavily on `Pandas`_ for data manipulation, in addition to `GPF
 
 Given the heavy dependence on Pandas, we reccommend that users have, at least, a baseline knowledge of this package.
 
+
+======================
+Documentation contents
+======================
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
