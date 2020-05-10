@@ -22,7 +22,7 @@ copyright = '2020, Michelle A. Kennedy'
 author = 'Michelle A. Kennedy'
 
 # The full version, including alpha/beta/rc tags
-release = 'Beta'
+release = '0.0.1'
 master_doc  = 'index'
 
 # # -- Mock imports ------------------------------------------------------------
