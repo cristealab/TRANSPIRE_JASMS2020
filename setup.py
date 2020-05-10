@@ -1,17 +1,23 @@
 import setuptools
 
-requirements = [
-    'pandas>=0.25.1', 
-    'numpy>=1.16.5', 
-    'scipy>=1.3.1', 
-    'gpflow==1.5.1', 
-    'goatools>=1.0.2', 
-    'scikit-learn>=0.21.3', 
-    'statsmodels>=0.10.1',
-    'matplotlib>=3.1.1', 
-    'seaborn>=0.9.0', 
-    'pytest'
-]
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+
+if on_rtd:
+    requirements = []
+else:
+    requirements = [
+        'pandas>=0.25.1', 
+        'numpy>=1.16.5', 
+        'scipy>=1.3.1', 
+        'gpflow==1.5.1', 
+        'tensorflow==1.15.0', 
+        'goatools>=1.0.2', 
+        'scikit-learn>=0.21.3', 
+        'statsmodels>=0.10.1',
+        'matplotlib>=3.1.1', 
+        'seaborn>=0.9.0', 
+        'pytest'
+    ]
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
