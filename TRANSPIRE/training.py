@@ -5,6 +5,8 @@ from sklearn.cluster import MiniBatchKMeans
 
 import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.logging.ERROR)
+
+import gpflow
     
 def compute_inducing(X, n_induce):
     '''Compute inducing points using the K-means approach
