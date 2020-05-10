@@ -21,7 +21,7 @@ TRANSPIRE relies heavily on `Pandas`_ for data manipulation, in addition to `GPF
 .. _GPFlow: https://www.gpflow.org/
 .. _Tensorflow: https://www.tensorflow.org/
 
-Given the heavy dependence on Pandas, we reccommend that users have, at least, a baseline knowledge of this package.
+Given the heavy dependence on Pandas, we recommend that users have, at least, a baseline knowledge of this package.
 
 
 ======================
