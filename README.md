@@ -3,8 +3,6 @@
 
 ***
 
-TRANSPIRE is a Python package for TRanslocation ANalysis of SPatIal pRotEomics data.
-
 ## QUICKSTART
 
 #### Installation and depedencies
