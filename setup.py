@@ -1,4 +1,5 @@
 import setuptools
+import os
 
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
