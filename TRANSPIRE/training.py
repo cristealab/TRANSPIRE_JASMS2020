@@ -93,3 +93,19 @@ def build_model(X, y, **model_params):
                            whiten = whiten)
 
     return m
+
+
+class ProgressTracker:
+    def __init__(self, m, X, y):
+        
+        self.m = m
+        self.X = X
+        self.y = y
+        
+        self.elbo = []
+        self.acc = []
+        
+    def update(self):
+        self.elbo.append(self.m.compute_log_likelihood(self.X))
+        means, _ = self.m.predict_y(self.X)
+        self.acc.append((np.argmax(means, axis=1)==self.y.flatten()).sum()/len(means))
