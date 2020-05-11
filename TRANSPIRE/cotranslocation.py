@@ -41,6 +41,26 @@ def compute_distance(X):
     return dists.where(dists!=0, np.nan)
 
 def extract_true_pos(dists, complex_to_prot, prot_to_complex):
+    '''Extract pairwise distances between CORUM complex proteins as a true positive metric for determining cotranslocation
+
+    Args:
+        dists (pd.Series): Pairwise distances between proteins; must have 'accession_A' and 'accession_B' index levels
+        prot_to_complex (pd.Series): Series for mapping Uniprot accession numbers to their corresponding CORUM complex IDs (as returned by TRANSPIRE.data.import_data.load_CORUM)
+        complex_to_prot (pd.Series): Series for mapping CORUM complex IDs the corresponding Uniprot accession numbers of their subunits (as returned by TRANSPIRE.data.import_data.load_CORUM)
+
+    Returns:
+        corum_dists (pd.Series): subset of dists corresponding to distances between members of CORUM complex members
+
+    Raises:
+        AssertionError: If dists is not a pd.Series
+        AssertionError: If 'accession_A' or 'accession_B' are not levels in the index
+
+    '''
+
+    assert(isinstance(dists, pd.Series))
+    assert('accession_A' in dists.index.names)
+    assert('accession_B' in dists.index.names)
+
     all_accs = np.unique([dists.index.get_level_values(i).unique().values.tolist() for i in dists.index.names if 'accession' in i])
     corum_in_dataset = prot_to_complex.index.values[prot_to_complex.index.isin(all_accs)]
     corum_pairs = np.array(list(itertools.product(corum_in_dataset, corum_in_dataset)))
@@ -50,6 +70,25 @@ def extract_true_pos(dists, complex_to_prot, prot_to_complex):
     return corum_dists
 
 def extract_true_neg(dists, df):
+    '''Extract pairwise distances between markers for distinct subcellular organelles as a true negative metric for determining cotranslocation
+
+    Args:
+        dists (pd.Series):  Pairwise distances between proteins; must have 'accession_A' and 'accession_B' index levels
+        df (pd.DataFrame): Protein profiles DataFrame formatted for TRANSPIRE (e.g. with 'accession', 'gene name' and 'localization' index levels)
+
+    Returns:
+        dists (pd.Series): subset of dists corresponding to distances between markers of distinct subcellular organelles
+
+    Raises:
+        AssertionError: If dists is not a pd.Series
+        AssertionError: If 'accession_A' or 'accession_B' are not levels in the index
+
+    '''
+
+    assert(isinstance(dists, pd.Series))
+    assert('accession_A' in dists.index.names)
+    assert('accession_B' in dists.index.names)
+
     locs = df.reset_index(['gene name', 'localization'])['localization'].dropna()
     locs = locs[~locs.index.duplicated()]
     
@@ -59,6 +98,9 @@ def extract_true_neg(dists, df):
     return dists[(cA!=cB)&(cA.notnull()&cB.notnull())]
 
 def compute_fpr(x, y):
+    '''
+
+    '''
 
     res = {}
 
@@ -77,7 +119,15 @@ def compute_fpr(x, y):
     return fpr
 
 class GetSTRINGInteractions:
+    '''
+
+    '''
+
     def __init__(self):
+        '''
+        
+        '''
+
         pass
     
     def to_query_string(self, mylist, sep): #can also accept arrays
@@ -139,6 +189,9 @@ class GetSTRINGInteractions:
 
     
     def get_interactions(self, IDs, species):
+        '''
+
+        '''
         
         # STRING will only let you query 2000 proteins at a time
         
@@ -176,7 +229,10 @@ class GetSTRINGInteractions:
         
         return df
 
-    def query(self, proteins, species):
+    def query(self, proteins, species, score_cutoff):
+        '''
+
+        '''
 
         string_IDs = self.map_identifiers_string(proteins.tolist(), species)
         string_IDs = string_IDs[~string_IDs.squeeze().index.duplicated()]
@@ -189,7 +245,7 @@ class GetSTRINGInteractions:
         interactions['Accession_B'] = string_IDs.loc[species+'.'+interactions_['stringId_B'], 'queryItem'].values
         interactions = interactions.set_index(['Accession_A', 'Accession_B'])
         interactions = interactions[~interactions.index.duplicated()]
-        interactions = interactions[interactions['score']>=0.4]
+        interactions = interactions[interactions['score']>=score_cutoff]
 
         # create a copy of values for when the indices are reversed
         interactions_copy = interactions.copy()
