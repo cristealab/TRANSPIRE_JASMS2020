@@ -143,3 +143,35 @@ def load_predictions(f):
 
     return df
 
+def load_CORUM():
+
+    corum = pd.read_csv(os.path.join(THIS_DIR, 'external', 'coreComplexes.txt'), sep='\t', index_col=0)
+
+    prot_to_complex = {}
+    complex_to_prot = {}
+
+    for complex_num, accs in zip(corum.index, corum['subunits(UniProt IDs)'].str.split(';')):
+        for acc in accs:
+            if not acc in prot_to_complex:
+                prot_to_complex[acc] = [complex_num]
+
+            else:
+                prot_to_complex[acc].append(complex_num)
+
+            if not complex_num in complex_to_prot:
+                complex_to_prot[complex_num] = [acc]
+
+            else:
+                complex_to_prot[complex_num].append(acc)
+
+    prot_to_complex = pd.Series(prot_to_complex)
+    complex_to_prot = pd.Series(complex_to_prot)
+
+    complex_to_prot.index.names = ['complex id']
+    complex_to_prot.name = 'subunit accession'
+
+    prot_to_complex.index.names = ['subunit accession']
+    prot_to_complex.name = 'complex id'
+
+    return corum, prot_to_complex, complex_to_prot
+
