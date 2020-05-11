@@ -89,31 +89,26 @@ This data is then input into the trained models, and processed results (i.e., tr
 STEP 6: Bioinformatic analysis of translocating proteins
 ========================================================
 
+Finally, TRANSPIRE can also perform gene ontology (GO) enrichment and co-translocation analyses on populations of translocating proteins to help discern the biological relevance of these movements.
+For GO enrichment analysis, we leverage the `GOATOOLS Python package`_[6]_, which implements a variety of methods for assessing significantly-enriched GO terms across 
+biological process, molecular function, and cellular component terms. See 'this notebook <./notebooks/post-processing (GO analysis, co-translocation analysis, etc.)>' for a detailed workflow
+for accomplishing these analyses.
+
+:: _GOATOOLS Python package: https://github.com/tanghaibao/goatools
 
 
-Gene ontology (GO) enrichment analysis using GOATOOLS
------------------------------------------------------
+.. [1] Jean Beltran, P. M.; Mathias, R. A.; Cristea, I. M. A Portrait of the Human Organelle Proteome In Space and Time during Cytomegalovirus Infection. Cell Syst. 2016, 3 (4), 361–373. https://doi.org/10.1016/j.cels.2016.08.012.
 
-Co-translocation analysis
--------------------------
+.. [2] Breckels, L. M.; Gatto, L.; Christoforou, A.; Groen, A. J.; Lilley, K. S.; Trotter, M. W. B. The Effect of Organelle Discovery upon Sub-Cellular Protein Localisation. J. Proteomics 2013, 88, 129–140. https://doi.org/10.1016/j.jprot.2013.02.019.
 
+.. [3] Christoforou, A.; Mulvey, C. M.; Breckels, L. M.; Geladaki, A.; Hurrell, T.; Hayward, P. C.; Naake, T.; Gatto, L.; Viner, R.; Arias, A. M.; Lilley, K. S. A Draft Map of the Mouse Pluripotent Stem Cell Spatial Proteome. Nat. Commun. 2016, 7, 9992. https://doi.org/10.1038/ncomms9992.
 
+.. [4] Itzhak, D. N.; Tyanova, S.; Cox, J.; Borner, G. H. Global, Quantitative and Dynamic Mapping of Protein Subcellular Localization. Elife 2016, 5 (JUN2016). https://doi.org/10.7554/eLife.16950.
 
-
-.. [1] Jean Beltran et al. 2016
-    Jean Beltran, P. M.; Mathias, R. A.; Cristea, I. M. A Portrait of the Human Organelle Proteome In Space and Time during Cytomegalovirus Infection. Cell Syst. 2016, 3 (4), 361–373. https://doi.org/10.1016/j.cels.2016.08.012.
-
-.. [2] Breckels et al. 2013
-    Breckels, L. M.; Gatto, L.; Christoforou, A.; Groen, A. J.; Lilley, K. S.; Trotter, M. W. B. The Effect of Organelle Discovery upon Sub-Cellular Protein Localisation. J. Proteomics 2013, 88, 129–140. https://doi.org/10.1016/j.jprot.2013.02.019.
-
-.. [3] Christoforou et al. 2016
-    Christoforou, A.; Mulvey, C. M.; Breckels, L. M.; Geladaki, A.; Hurrell, T.; Hayward, P. C.; Naake, T.; Gatto, L.; Viner, R.; Arias, A. M.; Lilley, K. S. A Draft Map of the Mouse Pluripotent Stem Cell Spatial Proteome. Nat. Commun. 2016, 7, 9992. https://doi.org/10.1038/ncomms9992.
-
-.. [4] Itzhak et al. 2016
-    Itzhak, D. N.; Tyanova, S.; Cox, J.; Borner, G. H. Global, Quantitative and Dynamic Mapping of Protein Subcellular Localization. Elife 2016, 5 (JUN2016). https://doi.org/10.7554/eLife.16950.
-
-.. [5] Thul et al. 2017
-    Thul, P. J.; Akesson, L.; Wiking, M.; Mahdessian, D.; Geladaki, A.; Ait Blal, H.; Alm, T.; Asplund, A.; Björk, L.; Breckels, L. M.; Bäckström, A.; Danielsson, F.; Fagerberg, L.; Fall, J.; 
+.. [5] Thul, P. J.; Akesson, L.; Wiking, M.; Mahdessian, D.; Geladaki, A.; Ait Blal, H.; Alm, T.; Asplund, A.; Björk, L.; Breckels, L. M.; Bäckström, A.; Danielsson, F.; Fagerberg, L.; Fall, J.; 
     Gatto, L.; Gnann, C.; Hober, S.; Hjelmare, M.; Johansson, F.; Lee, S.; Lindskog, C.; Mulder, J.; Mulvey, C. M.; Nilsson, P.; Oksvold, P.; Rockberg, J.; Schutten, R.; Schwenk, J. M.; 
     Sivertsson, A.; Sjöstedt, E.; Skogs, M.; Stadler, C.; Sullivan, D. P.; Tegel, H.; Winsnes, C.; Zhang, C.; Zwahlen, M.; Mardinoglu, A.; Pontén, F.; Von Feilitzen, K.; Lilley, K. S.; Uhlén, M.; Lundberg, E. 
     A Subcellular Map of the Human Proteome. Science (80-. ). 2017, 356 (6340), eaal3321. https://doi.org/10.1126/science.aal3321.
+
+.. [6] Klopfenstein, D. V.; Zhang, L.; Pedersen, B. S.; Ramírez, F.; Vesztrocy, A. W.; Naldi, A.; Mungall, C. J.; Yunes, J. M.; Botvinnik, O.; Weigel, M.; Dampier, W.; Dessimoz, C.; Flick, P.; Tang, H. GOATOOLS: A Python Library
+       for Gene Ontology Analyses. Sci. Rep. 2018, 8 (1), 10872. https://doi.org/10.1038/s41598-018-28948-z.
