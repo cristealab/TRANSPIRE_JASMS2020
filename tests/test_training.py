@@ -38,6 +38,7 @@ class TestSVGP(unittest.TestCase):
         gpflow.training.AdamOptimizer(learning_rate=0.5).minimize(m, maxiter=0)
         gpflow.reset_default_graph_and_session()
 
+
     def test_manual_train(self):
 
         m = TRANSPIRE.training.build_model(self.X, self.y)
