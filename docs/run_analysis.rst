@@ -40,7 +40,7 @@ Markers can be added to the loaded dataset by running::
 
 Note that if your dataset already has a "localization" level this will raise an error.
 
-Additional information on importing and manipulating data can be found in :doc:'this notebook <./notebooks/importing and manipulating data>'.
+Additional information on importing and manipulating data can be found in :doc:`this notebook <./notebooks/importing and manipulating data>`.
 
 =========================================
 STEP 2: Generate synthetic translocations
@@ -71,7 +71,7 @@ STEP 4: Train final model using optimized hyperparameters and evaluate predictiv
 After optimizing the kernel type and optimal number of inducing points, final models are built and trained for each set of conditions that you want to compare (e.g. control vs treatment 1, control vs. treatment 2, etc.).
 Following model training, the final predictive performance of the model can be evaluated using the held-out test partition of the dataset.
 
-See :doc:'this notebook <./notebooks/final model fitting and evaluation>' for a detailed workflow.
+See :doc:`this notebook <./notebooks/final model fitting and evaluation>` for a detailed workflow.
 
 ==============================
 STEP 5: Predict translocations
@@ -83,7 +83,7 @@ for different combinations of conditions can be generated in the following manne
     comparisons = [('control r1', 'treatment r1'), ('control r2', 'treatment r2')]
     actual_profiles = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons, synthetic=False)
 
-This data is then input into the trained models, and processed results (i.e., translocation scores, predicted labels, etc.) can be obtained as in :doc:'this notebook <./notebooks/final model fitting and evaluation>'.
+This data is then input into the trained models, and processed results (i.e., translocation scores, predicted labels, etc.) can be obtained as in :doc:`this notebook <./notebooks/final model fitting and evaluation>`.
 
 ========================================================
 STEP 6: Bioinformatic analysis of translocating proteins
@@ -91,7 +91,7 @@ STEP 6: Bioinformatic analysis of translocating proteins
 
 Finally, TRANSPIRE can also perform gene ontology (GO) enrichment and co-translocation analyses on populations of translocating proteins to help discern the biological relevance of these movements.
 For GO enrichment analysis, we leverage the `GOATOOLS Python package`_[6]_, which implements a variety of methods for assessing significantly-enriched GO terms across 
-biological process, molecular function, and cellular component terms. See 'this notebook <./notebooks/post-processing (GO analysis, co-translocation analysis, etc.)>' for a detailed workflow
+biological process, molecular function, and cellular component terms. See `this notebook <./notebooks/post-processing (GO analysis, co-translocation analysis, etc.)>` for a detailed workflow
 for accomplishing these analyses.
 
 :: _GOATOOLS Python package: https://github.com/tanghaibao/goatools
