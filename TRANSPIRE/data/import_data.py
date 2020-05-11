@@ -144,6 +144,17 @@ def load_predictions(f):
     return df
 
 def load_CORUM():
+    '''Load core CORUM complexes
+
+    Args:
+        None
+    
+    Returns:
+        corum (pd.DataFrame): DataFrame representation of CORUM core complexes information
+        prot_to_complex (pd.Series): Series for mapping Uniprot accession numbers to their corresponding CORUM complex IDs
+        complex_to_prot (pd.Series): Series for mapping CORUM complex IDs the corresponding Uniprot accession numbers of their subunits
+
+    '''
 
     corum = pd.read_csv(os.path.join(THIS_DIR, 'external', 'coreComplexes.txt'), sep='\t', index_col=0)
 
