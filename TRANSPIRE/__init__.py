@@ -4,3 +4,4 @@ from . import utils
 from . import performance
 from . import go_enrichment
 from . import cotranslocation
+from . import visualization
