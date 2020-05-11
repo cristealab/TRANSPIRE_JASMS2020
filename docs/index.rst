@@ -31,7 +31,7 @@ Documentation contents
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: The Basics:
    
    installation
    run_analysis
