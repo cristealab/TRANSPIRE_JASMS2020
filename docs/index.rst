@@ -38,8 +38,7 @@ Documentation contents
    run_analysis
    
 .. toctree::
-   :maxdepth: 0
-   :glob:
+   :maxdepth: 1
    :caption: Examples and tutorials:
 
    notebooks/importing and manipulating data
@@ -49,7 +48,6 @@ Documentation contents
    
 .. toctree::
    :maxdepth: 3
-   :glob:
    :caption: API:
 
    api_index
