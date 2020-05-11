@@ -5,6 +5,11 @@ import requests
 import io 
 from sklearn.covariance import MinCovDet
 from scipy.spatial.distance import cdist
+import os
+import time
+import itertools
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def compute_distance(X):
     
@@ -34,6 +39,42 @@ def compute_distance(X):
     dists = pd.DataFrame(dists, index = idx, columns = cols)
     
     return dists.where(dists!=0, np.nan)
+
+def extract_true_pos(dists, complex_to_prot, prot_to_complex):
+    all_accs = np.unique([dists.index.get_level_values(i).unique().values.tolist() for i in dists.index.names if 'accession' in i])
+    corum_in_dataset = prot_to_complex.index.values[prot_to_complex.index.isin(all_accs)]
+    corum_pairs = np.array(list(itertools.product(corum_in_dataset, corum_in_dataset)))
+    
+    corum_dists = dists[dists.index.get_level_values('accession_A').isin(corum_pairs[:, 0])&dists.index.get_level_values('accession_B').isin(corum_pairs[:, 1])]
+    
+    return corum_dists
+
+def extract_true_neg(dists, df):
+    locs = df.reset_index(['gene name', 'localization'])['localization'].dropna()
+    locs = locs[~locs.index.duplicated()]
+    
+    cA = locs.reindex(dists.index, level='accession_A')
+    cB = locs.reindex(dists.index, level='accession_B')
+    
+    return dists[(cA!=cB)&(cA.notnull()&cB.notnull())]
+
+def compute_fpr(x, y):
+
+    res = {}
+
+    for i in np.linspace(min((y.min(), x.min())), max(y.max(), x.max()), 100):
+        
+        tp = x[x<=i].groupby(['condition_A', 'condition_B']).size()
+        tn = y[y>i].groupby(['condition_A', 'condition_B']).size()
+        fp = y[y<=i].groupby(['condition_A', 'condition_B']).size()
+        fn = x[x>i].groupby(['condition_A', 'condition_B']).size()
+        
+        res[i] = pd.concat([tp, tn, fp, fn], axis=1, keys = ['tp', 'tn', 'fp', 'fn'])
+        
+    res = pd.concat(res, names = ['distance']).dropna()
+    fpr =(res['fp']/(res['fp']+res['tn']))
+
+    return fpr
 
 class GetSTRINGInteractions:
     def __init__(self):
@@ -134,34 +175,30 @@ class GetSTRINGInteractions:
             df = pd.read_csv(io.StringIO(r.text), sep = '\t', header = 0, index_col = None)
         
         return df
+
+    def query(self, proteins, species):
+
+        string_IDs = self.map_identifiers_string(proteins.tolist(), species)
+        string_IDs = string_IDs[~string_IDs.squeeze().index.duplicated()]
+
+        interactions_ = self.get_interactions(string_IDs.index.values.tolist(), species)
+
+        interactions = interactions_.copy()
+
+        interactions['Accession_A'] = string_IDs.loc[species+'.'+interactions_['stringId_A'], 'queryItem'].values
+        interactions['Accession_B'] = string_IDs.loc[species+'.'+interactions_['stringId_B'], 'queryItem'].values
+        interactions = interactions.set_index(['Accession_A', 'Accession_B'])
+        interactions = interactions[~interactions.index.duplicated()]
+        interactions = interactions[interactions['score']>=0.4]
+
+        # create a copy of values for when the indices are reversed
+        interactions_copy = interactions.copy()
+        interactions_copy.index = pd.MultiIndex.from_tuples(list(zip(interactions.index.get_level_values('Accession_B'), interactions.index.get_level_values('Accession_A'))), names = interactions.index.names)
+
+        temp = pd.concat([interactions, interactions_copy])
+        interactions = temp[~temp.index.duplicated()]
+
+        return interactions
+
     
 
-def load_CORUM():
-
-    prot_to_complex = {}
-    complex_to_prot = {}
-
-    for complex_num, accs in zip(corum.index, corum['subunits(UniProt IDs)'].str.split(';')):
-        for acc in accs:
-            if not acc in prot_to_complex:
-                prot_to_complex[acc] = [complex_num]
-
-            else:
-                prot_to_complex[acc].append(complex_num)
-
-            if not complex_num in complex_to_prot:
-                complex_to_prot[complex_num] = [acc]
-
-            else:
-                complex_to_prot[complex_num].append(acc)
-
-    prot_to_complex = pd.Series(prot_to_complex)
-    complex_to_prot = pd.Series(complex_to_prot)
-
-    complex_to_prot.index.names = ['complex id']
-    complex_to_prot.name = 'subunit accession'
-
-    prot_to_complex.index.names = ['subunit accession']
-    prot_to_complex.name = 'complex id'
-
-    return prot_to_complex, complex_to_prot
