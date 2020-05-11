@@ -94,7 +94,7 @@ For GO enrichment analysis, we leverage the `GOATOOLS Python package`_ [6]_, whi
 biological process, molecular function, and cellular component terms. See `this notebook <./notebooks/post-processing (GO analysis, co-translocation analysis, etc.)>` for a detailed workflow
 for accomplishing these analyses.
 
-:: _GOATOOLS Python package: https://github.com/tanghaibao/goatools
+.. _GOATOOLS Python package: https://github.com/tanghaibao/goatools
 
 
 .. [1] Jean Beltran, P. M.; Mathias, R. A.; Cristea, I. M. A Portrait of the Human Organelle Proteome In Space and Time during Cytomegalovirus Infection. Cell Syst. 2016, 3 (4), 361–373. https://doi.org/10.1016/j.cels.2016.08.012.
