@@ -90,7 +90,7 @@ STEP 6: Bioinformatic analysis of translocating proteins
 ========================================================
 
 Finally, TRANSPIRE can also perform gene ontology (GO) enrichment and co-translocation analyses on populations of translocating proteins to help discern the biological relevance of these movements.
-For GO enrichment analysis, we leverage the `GOATOOLS Python package`_[6]_, which implements a variety of methods for assessing significantly-enriched GO terms across 
+For GO enrichment analysis, we leverage the `GOATOOLS Python package`_ [6]_, which implements a variety of methods for assessing significantly-enriched GO terms across 
 biological process, molecular function, and cellular component terms. See `this notebook <./notebooks/post-processing (GO analysis, co-translocation analysis, etc.)>` for a detailed workflow
 for accomplishing these analyses.
 
