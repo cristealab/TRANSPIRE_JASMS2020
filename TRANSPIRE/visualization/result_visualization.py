@@ -4,6 +4,17 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 def plot_GO_enrichment_results(GO_df, orient = 'vertical', figsize = (8.5, 11)):
+    '''Plot results of gene ontology enrichment analysis as a bar plot
+
+    Args:
+        GO_df (pd.DataFrame): enriched GO terms as return in DataFrame form by TRANPSIRE.go_enrichment.GOAnalyzer.get_enrichment
+        orient (str, optional): orientation of the resulting plot.
+        figsize (tuple, optional): size of figure
+
+    Returns:
+        fig (plt.figure): resulting bar plot figure with fold enrichment of GO terms plotted as bars and their total percent of the study population plotted as a dotted grey line
+
+    '''
 
     if GO_df.shape[0] > 100:
         print('WARNING: Dataframe is relatively large... consider paring down GO terms to a more resonable number for efficient visualization.')
