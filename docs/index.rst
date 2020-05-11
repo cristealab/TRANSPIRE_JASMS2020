@@ -34,7 +34,6 @@ Documentation contents
    :caption: Contents:
    
    installation
-   about_transpire
    run_analysis
    
 .. toctree::
