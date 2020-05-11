@@ -40,6 +40,8 @@ Markers can be added to the loaded dataset by running::
 
 Note that if your dataset already has a "localization" level this will raise an error.
 
+Additional information on importing and manipulating data can be found in :doc:'this notebook <./notebooks/importing and manipulating data>'.
+
 =========================================
 STEP 2: Generate synthetic translocations
 =========================================
@@ -47,36 +49,47 @@ STEP 2: Generate synthetic translocations
 TRANSPIRE will generate synthetic translocations by concatenating combinations of organelle marker proteins as defined by the "localization" index level of the input data. 
 To generate these translocations, first define which conditions you want to make comparisons between (as a list of tuples), then generate the synthetic translocations for model training::
 
-    comparisons = [('control r1', 'infected r1'), ('control r2', 'infected r2')]
-    synthetic_translocations = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons)
+    comparisons = [('control r1', 'treatment r1'), ('control r2', 'treatment r2')]
+    synthetic_translocations = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons, synthetic=True)
 
 =================================================================
 STEP 3: Optimize model hyperparameters (optional, but encouraged)
 =================================================================
 
-While there are many hyperparameters that can be optimized for the GPFlow stochastic variational Gaussian process (SVGP) classifier that is used by TRANSPIRE, 
-we have implemented a very simple hyperparameter optimization scheme to optimize two of the hyperparameters that we have found to have the greatest impact on model performance: kernel type and number of inducing points. 
+There are many hyperparameters that can be optimized for the GPFlow stochastic variational Gaussian process (SVGP) classifier that is used by TRANSPIRE. To simplify the model selection process, 
+we have implemented a simple scheme to optimize two of the hyperparameters that we have found to have the greatest impact on model performance: kernel type and number of inducing points. 
 Certainly, more complex schemes for hyperparameter optimization and corresponding cross-validation exist, and can be implemented at the user's discretion.
 
 As hyperparameter optimization is a relatively complex and time-intensive task, please see the notebook on 
 :doc:`hyperparameter optimization <./notebooks/hyperparameter optimization>` 
 for a tutorial and examples of how TRANSPIRE can facilitate this process. As a technical note, we have generally found that the number of inducing points tends to have a greater impact on model performance than the kernel type.
 
-==========================================================
-STEP 4: Train final model using optimized hyperparameters
-==========================================================
+=============================================================================================
+STEP 4: Train final model using optimized hyperparameters and evaluate predictive performance
+=============================================================================================
 
-=======================================
-STEP 5: Evaluate predictive performance
-=======================================
+After optimizing the kernel type and optimal number of inducing points, final models are built and trained for each set of conditions that you want to compare (e.g. control vs treatment 1, control vs. treatment 2, etc.).
+Following model training, the final predictive performance of the model can be evaluated using the held-out test partition of the dataset.
+
+See :doc:'this notebook <./notebooks/final model fitting and evaluation>' for a detailed workflow.
 
 ==============================
-STEP 6: Predict translocations
+STEP 5: Predict translocations
 ==============================
 
+Ultimately, you can then use the final, optimized models to predict actual translocations in your dataset. Concatenations of the actual protein profiles
+for different combinations of conditions can be generated in the following manner::
+
+    comparisons = [('control r1', 'treatment r1'), ('control r2', 'treatment r2')]
+    actual_profiles = TRANSPIRE.data.generate_translocations.make_translocations(data, comparisons, synthetic=False)
+
+This data is then input into the trained models, and processed results (i.e., translocation scores, predicted labels, etc.) can be obtained as in :doc:'this notebook <./notebooks/final model fitting and evaluation>'.
+
 ========================================================
-STEP 7: Bioinformatic analysis of translocating proteins
+STEP 6: Bioinformatic analysis of translocating proteins
 ========================================================
+
+
 
 Gene ontology (GO) enrichment analysis using GOATOOLS
 -----------------------------------------------------
