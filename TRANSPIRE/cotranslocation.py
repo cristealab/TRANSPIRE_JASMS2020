@@ -98,7 +98,14 @@ def extract_true_neg(dists, df):
     return dists[(cA!=cB)&(cA.notnull()&cB.notnull())]
 
 def compute_fpr(x, y):
-    '''
+    '''Compute false positive rates using x (true positive) and y (true negative) for values ranging between min(x.min(), y.min()) and max(x.max(), y.max())
+
+    Args:
+        x (pd.Series): True postive pairwise distances
+        y (pd.Series): True negative pariwise distances
+
+    Returns:
+        fpr (pd.Series): false positive rates for an array of distances ranging from min(x.min(), y.min()) to max(x.max(), y.max())
 
     '''
 
@@ -119,19 +126,30 @@ def compute_fpr(x, y):
     return fpr
 
 class GetSTRINGInteractions:
-    '''
+    '''Retrieve known interactions from the STRING database using their REST API
+
+    Attributes:
+        None
 
     '''
 
     def __init__(self):
-        '''
-        
+        '''Initialize object        
         '''
 
         pass
     
     def to_query_string(self, mylist, sep): #can also accept arrays
-        '''convert a list to a string that can be used as a query string in an http post request'''
+        '''Convert a list to a string that can be used as a query string in an http post request
+        
+        Args:
+            mylist (list): list of values
+            sep (str): separator for concatentating the values
+
+        Returns:
+            l (str): items in mylist concatenated into a single string
+
+        '''
         
         l = ''
 
@@ -145,9 +163,16 @@ class GetSTRINGInteractions:
         return l
     
     def map_identifiers_string(self, proteins, species):
-        '''Use STRING's API to retrive the corresponding string identifiers for each protein.
-        I highly reccommend using this function prior to querying for interactions. 
-        It significantly decreases the request response time'''
+        '''Use STRING's API to retrive the corresponding STRING identifiers for each protein
+        
+        Args:
+            proteins (Union(list, np.ndarray)): Uniprot protein accessions to be mapped to StringIDs
+            species (str): Taxonomic identifier for the given protein species (e.g. '9606' for Homo Sapiens)
+        
+        Returns:
+            df (pd.DataFrame): Uniprot accessions mapped to their corresponding StringIDs   
+        
+        '''
         
         # STRING will only let you query 2000 proteins at a time, otherwise you get an error message back
         
@@ -161,7 +186,7 @@ class GetSTRINGInteractions:
                 p = self.to_query_string(ps, '%0D') #each protein on a new line
 
                 url = 'https://string-db.org/api/tsv/get_string_ids'
-                params = {'identifiers': p, 'species':species, 'echo_query': 1, 'caller_identity': 'Princeton_University'}
+                params = {'identifiers': p, 'species':species, 'echo_query': 1, 'caller_identity': 'TRANSPIRE'}
 
                 r = requests.post(url, data = params)
                 _df = pd.read_csv(io.StringIO(r.text), sep = '\t', header = 0, index_col = None)
@@ -189,7 +214,14 @@ class GetSTRINGInteractions:
 
     
     def get_interactions(self, IDs, species):
-        '''
+        '''Query STRING database for known interactions between proteins
+
+        Args:
+            IDs (Union(list, np.ndarray)): StringIDs for query proteins
+            species (str): Taxonomic identifier for the given protein species (e.g. '9606' for Homo Sapiens)
+
+        Returns:
+            df (pd.DataFrame): known interactions between proteins as well as their corresponding STRING data (evidence scores, etc.)
 
         '''
         
@@ -230,7 +262,17 @@ class GetSTRINGInteractions:
         return df
 
     def query(self, proteins, species, score_cutoff):
-        '''
+        '''Perform a STRING database query on a given set of protein accession numbers.
+        
+        This is a simple wrapper combining several GetSTRINGInteractions methods that returns at DataFrame of known interactions between the input proteins.
+
+        Args:
+            proteins (np.ndarray): Uniprot accession numbers for proteins to query for known interactions
+            species (str): Taxonomic identifier for the given protein species (e.g. '9606' for Homo Sapiens)
+            score_cutoff (float): STRING score cutoff for the returned iteractions
+
+        Returns:
+            interactions (pd.DataFrame): Known iteractions bewteen the input proteins
 
         '''
 
