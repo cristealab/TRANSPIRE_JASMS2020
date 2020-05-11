@@ -154,3 +154,4 @@ cython_debug/
 
 #Visual studio code
 ./vscode
+settings.json
