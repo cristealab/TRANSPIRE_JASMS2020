@@ -11,7 +11,7 @@ else:
         'numpy>=1.16.5', 
         'scipy>=1.3.1', 
         'gpflow==1.5.1', 
-        'tensorflow==1.15.0', 
+        'tensorflow==1.15.2', 
         'goatools>=1.0.2', 
         'scikit-learn>=0.21.3', 
         'statsmodels>=0.10.1',
