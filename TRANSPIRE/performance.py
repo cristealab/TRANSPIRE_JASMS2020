@@ -34,8 +34,8 @@ def eval_report(means, mapping, mapping_r):
     
     # map results to their binary representation (e.g. translocating v. not translocating) and compute loss and F1 scores
     binary = map_binary(means, mapping_r)
-    binary_loss = sklearn.metrics.log_loss(binary['true label'], binary['translocation'])
-    binary_f1 = sklearn.metrics.f1_score(binary['true label'], binary['translocation']>0.5, average='weighted')
+    binary_loss = sklearn.metrics.log_loss(binary['true label'], binary['translocation score'])
+    binary_f1 = sklearn.metrics.f1_score(binary['true label'], binary['translocation score']>0.5, average='weighted')
     
     results = {
 
@@ -50,7 +50,7 @@ def eval_report(means, mapping, mapping_r):
             },)
     }
 
-    return pd.concat(results, keys = ['type of metric', 'metric'])
+    return pd.concat(results, names = ['type of metric', 'metric'])
 
 def compute_fpr(x, n=100):
     '''Compute false-positive rates for translocation score cutoffs
@@ -65,7 +65,7 @@ def compute_fpr(x, n=100):
 
     '''
 
-    fp = [((x['translocation'] > i)&(x['true label']==0)).sum() for i in np.linspace(0, 1, n)]
+    fp = [((x['translocation score'] > i)&(x['true label']==0)).sum() for i in np.linspace(0, 1, n)]
     fpr = fp/((x['true label']==0).sum())
     
     return pd.Series(fpr, index=np.linspace(0, 1, n))
