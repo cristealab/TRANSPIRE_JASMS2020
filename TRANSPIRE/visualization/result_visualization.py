@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def plot_GO_enrichment_results(GO_df, orient = 'vertical', figsize = (8.5, 11)):
 
-    if GO_df.shape[0] > 50:
+    if GO_df.shape[0] > 100:
         print('WARNING: Dataframe is relatively large... consider paring down GO terms to a more resonable number for efficient visualization.')
 
     fig, ax = plt.subplots(figsize=figsize)
