@@ -12,7 +12,7 @@ from .utils import uniprot_mapping_service
 class GOAnalyzer:
     '''Wrapper to make analysis with GOATOOLS less complex
 
-    The GOAAnalyzer class creates a GOEnrichmentStudyNS object that can be used to run consecutive enrichment studies using the same background gene list.
+    The GOAnalyzer class creates a GOEnrichmentStudyNS object that can be used to run consecutive enrichment studies using the same background gene list.
 
     Attributes:
         IDs (pd.DataFrame): ncbi_geneIDs for the input background proteins
