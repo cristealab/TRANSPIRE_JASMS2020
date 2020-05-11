@@ -38,7 +38,7 @@ Documentation contents
    run_analysis
    
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 0
    :glob:
    :caption: Examples and tutorials:
 
