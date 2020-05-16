@@ -34,4 +34,6 @@ See the provided [Jupyter notebooks](/docs/notebooks) for examples and tutorials
 
 
 ## Citing TRANSPIRE
-Publication details to be updated in the future
+If you find TRANSPIRE useful in your research, please cite its publication in JASMS:
+
+Kennedy, M. A.; Hofstadter, W. A.; Cristea, I. M. TRANSPIRE: A Computational Pipeline to Elucidate Intracellular Protein Movements from Spatial Proteomics Datasets. J. Am. Soc. Mass Spectrom. 2020, jasms.0c00033. https://doi.org/10.1021/jasms.0c00033.
