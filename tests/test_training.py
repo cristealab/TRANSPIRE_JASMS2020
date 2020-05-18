@@ -50,3 +50,7 @@ class TestSVGP(unittest.TestCase):
         m = TRANSPIRE.training.build_model(self.X, self.y, **{'minibatch_size': 0.1})
         gpflow.training.AdamOptimizer(learning_rate=0.5).minimize(m, maxiter=0)
         gpflow.reset_default_graph_and_session()
+        
+         
+if __name__ == '__main__':
+    unittest.main()
