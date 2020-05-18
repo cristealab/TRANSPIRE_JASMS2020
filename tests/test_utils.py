@@ -65,3 +65,6 @@ class TestUtils(unittest.TestCase):
 
         self.assertEqual(df_gene.values[0], 399687)
         self.assertEqual(df_string.values[0], '9606.ENSP00000437073')
+ 
+if __name__ == '__main__':
+    unittest.main()
