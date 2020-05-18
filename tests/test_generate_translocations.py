@@ -22,3 +22,7 @@ class TestMakeTranslocations(unittest.TestCase):
     def test_make_actual(self):
         translocations = TRANSPIRE.data.generate_translocations.make_translocations(self.data, self.comparisons, synthetic = False)
         self.assertIsInstance(translocations, pd.DataFrame)
+        
+ 
+if __name__ == '__main__':
+    unittest.main()
