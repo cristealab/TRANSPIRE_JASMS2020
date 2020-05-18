@@ -1,4 +1,7 @@
 include TRANSPIRE/data/external/*csv
+include TRANSPIRE/data/external/*txt
+include TRANSPIRE/data/external/organelle_markers/*.csv
+include TRANSPIRE/data/external/organelle_markers/*.txt
 include tests/test_files/*csv
 include tests/test_files/*txt
 include tests/test_files/*xlsx
